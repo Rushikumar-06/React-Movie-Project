@@ -11,7 +11,7 @@ function Home(){
     ]
     const handerSearch = (e) => {
         e.preventDefault()
-        alert(searchQuery)
+        alert("")
         setSearchQuery("")
     }
     return(
