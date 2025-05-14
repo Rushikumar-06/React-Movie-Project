@@ -1,18 +1,39 @@
 import MovieCard from "../components/movieCard";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import "../css/Home.css";
+import {getPopularMovies, searchMovies} from "../services/api";
 function Home(){
     const [searchQuery, setSearchQuery] = useState("");
-    const movies = [
-        {id:1, title:"Movie 1", release_date:"2023", src:"https://via.placeholder.com/150"},
-        {id:2, title:"Movie 2", release_date:"2023", src:"https://via.placeholder.com/150"},
-        {id:3, title:"Movie 3", release_date:"2023", src:"https://via.placeholder.com/150"},
-        {id:4, title:"Movie 4", release_date:"2023", src:"https://via.placeholder.com/150"}, 
-    ]
-    const handerSearch = (e) => {
+    const [movies, setMovies] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    useEffect(()=>{
+        const loadPopularMovies = async ()=>{
+            try{
+                const popularMovies = await getPopularMovies();
+            setMovies(popularMovies);
+            }
+            catch(err){
+                console.log(err);
+                setError("failed to load movies");
+            }
+            finally{
+                setLoading(false);
+            }
+        }
+        loadPopularMovies();
+    },[])
+    const handerSearch = (e) => { 
         e.preventDefault()
-        alert("")
+        alert("Search functionality is not implemented yet.")
         setSearchQuery("")
+    }
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
+    if (error) {
+        return <p className="error-message">{error}</p>;
     }
     return(
     <div className="home">
